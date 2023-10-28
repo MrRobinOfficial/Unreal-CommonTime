@@ -12,7 +12,7 @@ class IPropertyHandle;
 class SEditableTextBox;
 
 /**
- * Implements a details view customization for the FTimespan structure.
+ * Implements a details view customization for the FDateTime structure.
  */
 class FMyDateTimeDetailCustomization
 	: public IPropertyTypeCustomization
@@ -37,8 +37,6 @@ public:
 
 private:
 	TOptional<int32> OnGetValue(int32 Index) const;
-	/** @return the value being observed by the Numeric Entry Box as a FText */
-	FText GetValueAsText(int32 Index) const;
 	void OnValueCommitted(int32 NewValue, ETextCommit::Type CommitType, int32 Index);
 	void OnValueChanged(int32 NewValue, int32 Index);
 	void OnBeginSliderMovement();
@@ -50,4 +48,11 @@ private:
 
 	/** True if a value is being changed by dragging a slider */
 	bool bIsUsingSlider;
+
+	TSharedPtr<SWidget> YearEntryBox;
+	TSharedPtr<SWidget> MonthEntryBox;
+	TSharedPtr<SWidget> DayEntryBox;
+	TSharedPtr<SWidget> HourEntryBox;
+	TSharedPtr<SWidget> MinuteEntryBox;
+	TSharedPtr<SWidget> SecondEntryBox;
 };

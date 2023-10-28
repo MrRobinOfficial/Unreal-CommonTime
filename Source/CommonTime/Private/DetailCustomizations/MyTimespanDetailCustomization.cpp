@@ -19,6 +19,10 @@
 
 #include "DetailLayoutBuilder.h"
 #include "Widgets/Input/SNumericEntryBox.h"
+#include "Widgets/Input/SVectorInputBox.h"
+#include "Widgets/Input/NumericTypeInterface.h"
+#include "Widgets/Input/NumericUnitTypeInterface.inl"
+#include "Math/UnitConversion.h"
 
 #define LOCTEXT_NAMESPACE "MyTimespanDetailCustomization"
 
@@ -40,155 +44,75 @@ void FMyTimespanDetailCustomization::CustomizeHeader(
 {
 	PropertyHandle = StructPropertyHandle;
 
+	SAssignNew(HourEntryBox, SNumericEntryBox<int32>)
+		.AllowSpin(true)
+		.MinValue(0)
+		.MaxValue(23)
+		.MinSliderValue(0)
+		.MaxSliderValue(23)
+		.Font(IDetailLayoutBuilder::GetDetailFont())
+		.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 0)
+		.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 0)
+		.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 0)
+		.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
+		.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Hours)))
+		.LinearDeltaSensitivity(1);
+
+	SAssignNew(MinuteEntryBox, SNumericEntryBox<int32>)
+		.AllowSpin(true)
+		.MinValue(0)
+		.MaxValue(59)
+		.MinSliderValue(0)
+		.MaxSliderValue(59)
+		.Font(IDetailLayoutBuilder::GetDetailFont())
+		.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 1)
+		.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 1)
+		.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 1)
+		.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
+		.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Minutes)))
+		.LinearDeltaSensitivity(1);
+
+	SAssignNew(SecondEntryBox, SNumericEntryBox<int32>)
+		.AllowSpin(true)
+		.MinValue(0)
+		.MaxValue(59)
+		.MinSliderValue(0)
+		.MaxSliderValue(59)
+		.Font(IDetailLayoutBuilder::GetDetailFont())
+		.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 2)
+		.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 2)
+		.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 2)
+		.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
+		.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Seconds)))
+		.LinearDeltaSensitivity(1);
+
 	HeaderRow
 		.NameContent()
 		[
 			StructPropertyHandle->CreatePropertyNameWidget()
 		]
 		.ValueContent()
-		.MaxDesiredWidth(0.f)
 		.MinDesiredWidth(125.0f * 3.0f)
-		//.HAlign(HAlign_Fill)
+		.MaxDesiredWidth(125.0f * 3.0f)
 		[
 			SNew(SHorizontalBox)
 				+ SHorizontalBox::Slot()
-				.Padding(0.0f, 2.0f)
+				.Padding(0.0f)
 				[
-					SNew(SNumericEntryBox<int32>)
-						.AllowSpin(true)
-						.MinValue(0)
-						.MaxValue(23)
-						.MinSliderValue(0)
-						.MaxSliderValue(23)
-						.Font(IDetailLayoutBuilder::GetDetailFont())
-						.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 0)
-						.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 0)
-						.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 0)
-						.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
-						.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
-						//.OnValueChanged(CreatePerComponentChanged(ComponentIndex, OnComponentChanged, InArgs._ConstrainVector))
-						//.OnValueCommitted(CreatePerComponentCommitted(ComponentIndex, OnComponentCommitted, InArgs._ConstrainVector))
-						//.ToolTipText(MakeAttributeLambda([Value, TooltipText]
-						//{
-						//	if (Value.Get().IsSet())
-						//	{
-						//		return FText::Format(TooltipText, Value.Get().GetValue());
-						//	}
-						//	return NSLOCTEXT("SVectorInputBox", "MultipleValues", "Multiple Values");
-						//}))
-						//.UndeterminedString(NSLOCTEXT("SVectorInputBox", "MultipleValues", "Multiple Values"))
-						//.ContextMenuExtender(OnContextMenuExtenderComponent)
-						//.TypeInterface(InArgs._TypeInterface)
-						//.MinValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MinVector))
-						//.MaxValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MaxVector))
-						//.MinSliderValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MinSliderVector))
-						//.MaxSliderValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MaxSliderVector))
-						.LinearDeltaSensitivity(1)
-						/*.Delta(InArgs._SpinDelta)*/
-						/*.OnBeginSliderMovement(CreatePerComponentSliderMovementEvent(InArgs._OnBeginSliderMovement, OnComponentBeginSliderMovement))*/
-						/*.OnEndSliderMovement(CreatePerComponentSliderMovementEvent<FOnNumericValueChanged, NumericType>(InArgs._OnEndSliderMovement, OnComponentEndSliderMovement))*/
-						/*.DisplayToggle(InArgs._DisplayToggle)
-						.TogglePadding(InArgs._TogglePadding)
-						.ToggleChecked(ToggleChecked)
-						.OnToggleChanged(OnToggleChanged)*/
-
-					//SNew(SNumericEntryBox<int32>)
-					//	.AllowSpin(true)
-					//	.Font(IDetailLayoutBuilder::GetDetailFont())
-					//	.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 0)
-					//	.MinValue(0)
-					//	.MaxValue(23)
-					//	.MinSliderValue(0)
-					//	.MaxSliderValue(23)
-					//	.LabelPadding(FMargin(3.f))
-					//	.LabelLocation(SNumericEntryBox<int32>::ELabelLocation::Inside)
-					//	.UndeterminedString(NSLOCTEXT("PropertyEditor", "MultipleValues", "Multiple Values"))
-					//	.OnValueCommitted(const_cast<FMyTimespanDetailCustomization*>(this),&FMyTimespanDetailCustomization::OnValueCommitted, 0)
-					//	.OnValueChanged(const_cast<FMyTimespanDetailCustomization*>(this),&FMyTimespanDetailCustomization::OnValueChanged, 0)
-					//	.OnBeginSliderMovement(const_cast<FMyTimespanDetailCustomization*>(this), &FMyTimespanDetailCustomization::OnBeginSliderMovement)
-					//	.OnEndSliderMovement(const_cast<FMyTimespanDetailCustomization*>(this),  &FMyTimespanDetailCustomization::OnEndSliderMovement)
+					HourEntryBox.ToSharedRef()
 				]
 				+ SHorizontalBox::Slot()
-				.Padding(3.75f, 2.0f)
+				.Padding(2.5f, 0.0f)
 				[
-					SNew(SNumericEntryBox<int32>)
-						.AllowSpin(true)
-						.MinValue(0)
-						.MaxValue(59)
-						.MinSliderValue(0)
-						.MaxSliderValue(59)
-						.Font(IDetailLayoutBuilder::GetDetailFont())
-						.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 1)
-						.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 1)
-						.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 1)
-						.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
-						.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
-						//.OnValueChanged(CreatePerComponentChanged(ComponentIndex, OnComponentChanged, InArgs._ConstrainVector))
-						//.OnValueCommitted(CreatePerComponentCommitted(ComponentIndex, OnComponentCommitted, InArgs._ConstrainVector))
-						//.ToolTipText(MakeAttributeLambda([Value, TooltipText]
-						//{
-						//	if (Value.Get().IsSet())
-						//	{
-						//		return FText::Format(TooltipText, Value.Get().GetValue());
-						//	}
-						//	return NSLOCTEXT("SVectorInputBox", "MultipleValues", "Multiple Values");
-						//}))
-						//.UndeterminedString(NSLOCTEXT("SVectorInputBox", "MultipleValues", "Multiple Values"))
-						//.ContextMenuExtender(OnContextMenuExtenderComponent)
-						//.TypeInterface(InArgs._TypeInterface)
-						//.MinValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MinVector))
-						//.MaxValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MaxVector))
-						//.MinSliderValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MinSliderVector))
-						//.MaxSliderValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MaxSliderVector))
-						.LinearDeltaSensitivity(1)
-						/*.Delta(InArgs._SpinDelta)*/
-						/*.OnBeginSliderMovement(CreatePerComponentSliderMovementEvent(InArgs._OnBeginSliderMovement, OnComponentBeginSliderMovement))*/
-						/*.OnEndSliderMovement(CreatePerComponentSliderMovementEvent<FOnNumericValueChanged, NumericType>(InArgs._OnEndSliderMovement, OnComponentEndSliderMovement))*/
-						/*.DisplayToggle(InArgs._DisplayToggle)
-						.TogglePadding(InArgs._TogglePadding)
-						.ToggleChecked(ToggleChecked)
-						.OnToggleChanged(OnToggleChanged)*/
+					MinuteEntryBox.ToSharedRef()
 				]
 				+ SHorizontalBox::Slot()
-				.Padding(0.0f, 2.0f)
+				.Padding(0.0f)
 				[
-					SNew(SNumericEntryBox<int32>)
-						.AllowSpin(true)
-						.MinValue(0)
-						.MaxValue(59)
-						.MinSliderValue(0)
-						.MaxSliderValue(59)
-						.Font(IDetailLayoutBuilder::GetDetailFont())
-						.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 2)
-						.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 2)
-						.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 2)
-						.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
-						.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
-						//.OnValueChanged(CreatePerComponentChanged(ComponentIndex, OnComponentChanged, InArgs._ConstrainVector))
-						//.OnValueCommitted(CreatePerComponentCommitted(ComponentIndex, OnComponentCommitted, InArgs._ConstrainVector))
-						//.ToolTipText(MakeAttributeLambda([Value, TooltipText]
-						//{
-						//	if (Value.Get().IsSet())
-						//	{
-						//		return FText::Format(TooltipText, Value.Get().GetValue());
-						//	}
-						//	return NSLOCTEXT("SVectorInputBox", "MultipleValues", "Multiple Values");
-						//}))
-						//.UndeterminedString(NSLOCTEXT("SVectorInputBox", "MultipleValues", "Multiple Values"))
-						//.ContextMenuExtender(OnContextMenuExtenderComponent)
-						//.TypeInterface(InArgs._TypeInterface)
-						//.MinValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MinVector))
-						//.MaxValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MaxVector))
-						//.MinSliderValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MinSliderVector))
-						//.MaxSliderValue(CreatePerComponentGetter(ComponentIndex, TOptional<int32>(), InArgs._MaxSliderVector))
-						.LinearDeltaSensitivity(1)
-						/*.Delta(InArgs._SpinDelta)*/
-						/*.OnBeginSliderMovement(CreatePerComponentSliderMovementEvent(InArgs._OnBeginSliderMovement, OnComponentBeginSliderMovement))*/
-						/*.OnEndSliderMovement(CreatePerComponentSliderMovementEvent<FOnNumericValueChanged, NumericType>(InArgs._OnEndSliderMovement, OnComponentEndSliderMovement))*/
-						/*.DisplayToggle(InArgs._DisplayToggle)
-						.TogglePadding(InArgs._TogglePadding)
-						.ToggleChecked(ToggleChecked)
-						.OnToggleChanged(OnToggleChanged)*/
+					SecondEntryBox.ToSharedRef()
 				]
 		];
 }

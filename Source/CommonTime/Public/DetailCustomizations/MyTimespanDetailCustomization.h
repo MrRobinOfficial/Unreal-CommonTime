@@ -47,4 +47,8 @@ private:
 
 	/** True if a value is being changed by dragging a slider */
 	bool bIsUsingSlider;
+
+	TSharedPtr<SWidget> HourEntryBox;
+	TSharedPtr<SWidget> MinuteEntryBox;
+	TSharedPtr<SWidget> SecondEntryBox;
 };
