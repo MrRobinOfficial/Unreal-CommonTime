@@ -17,7 +17,7 @@
 
 #
 
-## 📋 TODOS
+## 📋 TODO
 
 * Fix padding issue (not prioritize)
 
