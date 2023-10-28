@@ -44,49 +44,55 @@ void FMyTimespanDetailCustomization::CustomizeHeader(
 {
 	PropertyHandle = StructPropertyHandle;
 
-	SAssignNew(HourEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(HourEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(0)
 		.MaxValue(23)
 		.MinSliderValue(0)
 		.MaxSliderValue(23)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 0)
 		.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 0)
 		.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 0)
 		.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Hours)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Hours)))
 		.LinearDeltaSensitivity(1);
 
-	SAssignNew(MinuteEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(MinuteEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(0)
 		.MaxValue(59)
 		.MinSliderValue(0)
 		.MaxSliderValue(59)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 1)
 		.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 1)
 		.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 1)
 		.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Minutes)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Minutes)))
 		.LinearDeltaSensitivity(1);
 
-	SAssignNew(SecondEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(SecondEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(0)
 		.MaxValue(59)
 		.MinSliderValue(0)
 		.MaxSliderValue(59)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyTimespanDetailCustomization::OnGetValue, 2)
 		.OnValueChanged(this, &FMyTimespanDetailCustomization::OnValueChanged, 2)
 		.OnValueCommitted(this, &FMyTimespanDetailCustomization::OnValueCommitted, 2)
 		.OnBeginSliderMovement(this, &FMyTimespanDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyTimespanDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Seconds)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Seconds)))
 		.LinearDeltaSensitivity(1);
 
 	HeaderRow
@@ -121,32 +127,32 @@ void FMyTimespanDetailCustomization::CustomizeHeader(
 /* FMyTimespanDetailCustomization callbacks
  *****************************************************************************/
 
-TOptional<int32> FMyTimespanDetailCustomization::OnGetValue(int32 Index) const
+TOptional<double> FMyTimespanDetailCustomization::OnGetValue(int32 Index) const
 {
 	TArray<void*> RawData;
 	PropertyHandle->AccessRawData(RawData);
 
 	if (RawData.Num() != 1)
-		return TOptional<int32>();
+		return TOptional<double>();
 
 	if (RawData[0] == nullptr)
-		return TOptional<int32>();
+		return TOptional<double>();
 
 	auto* Timespan = ((FTimespan*)RawData[0]);
 
 	switch (Index)
 	{
 		case 0:
-			return TOptional<int32>(Timespan->GetHours());
+			return TOptional<double>(Timespan->GetHours());
 
 		case 1:
-			return TOptional<int32>(Timespan->GetMinutes());
+			return TOptional<double>(Timespan->GetMinutes());
 
 		case 2:
-			return TOptional<int32>(Timespan->GetSeconds());
+			return TOptional<double>(Timespan->GetSeconds());
 
 		default:
-			return TOptional<int32>();
+			return TOptional<double>();
 	}
 }
 
@@ -157,15 +163,17 @@ void FMyTimespanDetailCustomization::OnBeginSliderMovement()
 	GEditor->BeginTransaction(FText::Format(NSLOCTEXT("MyTimespanDetailCustomization", "SetTimespanProperty", "Edit {0}"), PropertyHandle->GetPropertyDisplayName()));
 }
 
-void FMyTimespanDetailCustomization::OnEndSliderMovement(int32 NewValue)
+void FMyTimespanDetailCustomization::OnEndSliderMovement(double NewValue)
 {
 	bIsUsingSlider = false;
 
 	GEditor->EndTransaction();
 }
 
-void FMyTimespanDetailCustomization::OnValueCommitted(int32 NewValue, ETextCommit::Type CommitType, int32 Index)
+void FMyTimespanDetailCustomization::OnValueCommitted(double NewValue, ETextCommit::Type CommitType, int32 Index)
 {
+	NewValue = FMath::CeilToDouble(NewValue);
+
 	TArray<void*> RawData;
 
 	PropertyHandle->AccessRawData(RawData);
@@ -202,13 +210,12 @@ void FMyTimespanDetailCustomization::OnValueCommitted(int32 NewValue, ETextCommi
 	PropertyHandle->NotifyFinishedChangingProperties();
 }
 
-void FMyTimespanDetailCustomization::OnValueChanged(int32 NewValue, int32 Index)
+void FMyTimespanDetailCustomization::OnValueChanged(double NewValue, int32 Index)
 {
 	if (!bIsUsingSlider)
 		return;
 
-	//EPropertyValueSetFlags::Type Flags = EPropertyValueSetFlags::InteractiveChange;
-	//PropertyHandle->SetValue(NewValue, Flags);
+	NewValue = FMath::CeilToDouble(NewValue);
 
 	TArray<void*> RawData;
 

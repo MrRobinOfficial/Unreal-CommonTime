@@ -36,11 +36,11 @@ public:
 	void CustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils) override;
 
 private:
-	TOptional<int32> OnGetValue(int32 Index) const;
-	void OnValueCommitted(int32 NewValue, ETextCommit::Type CommitType, int32 Index);
-	void OnValueChanged(int32 NewValue, int32 Index);
+	TOptional<double> OnGetValue(int32 Index) const;
+	void OnValueCommitted(double NewValue, ETextCommit::Type CommitType, int32 Index);
+	void OnValueChanged(double NewValue, int32 Index);
 	void OnBeginSliderMovement();
-	void OnEndSliderMovement(int32 NewValue);
+	void OnEndSliderMovement(double NewValue);
 
 private:
 	/** Holds a handle to the property being edited. */

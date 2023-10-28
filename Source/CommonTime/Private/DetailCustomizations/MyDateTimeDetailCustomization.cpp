@@ -40,94 +40,106 @@ void FMyDateTimeDetailCustomization::CustomizeHeader(TSharedRef<IPropertyHandle>
 {
 	PropertyHandle = StructPropertyHandle;
 
-	SAssignNew(YearEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(YearEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(1)
 		.MaxValue(9999)
 		.MinSliderValue(1)
 		.MaxSliderValue(9999)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyDateTimeDetailCustomization::OnGetValue, 3)
 		.OnValueChanged(this, &FMyDateTimeDetailCustomization::OnValueChanged, 3)
 		.OnValueCommitted(this, &FMyDateTimeDetailCustomization::OnValueCommitted, 3)
 		.OnBeginSliderMovement(this, &FMyDateTimeDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyDateTimeDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Years)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Years)))
 		.LinearDeltaSensitivity(1);
 
-	SAssignNew(MonthEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(MonthEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(1)
 		.MaxValue(12)
 		.MinSliderValue(1)
 		.MaxSliderValue(12)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyDateTimeDetailCustomization::OnGetValue, 4)
 		.OnValueChanged(this, &FMyDateTimeDetailCustomization::OnValueChanged, 4)
 		.OnValueCommitted(this, &FMyDateTimeDetailCustomization::OnValueCommitted, 4)
 		.OnBeginSliderMovement(this, &FMyDateTimeDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyDateTimeDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Months)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Months)))
 		.LinearDeltaSensitivity(1);
 
-	SAssignNew(DayEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(DayEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(1)
 		.MaxValue(31)
 		.MinSliderValue(1)
 		.MaxSliderValue(31)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyDateTimeDetailCustomization::OnGetValue, 5)
 		.OnValueChanged(this, &FMyDateTimeDetailCustomization::OnValueChanged, 5)
 		.OnValueCommitted(this, &FMyDateTimeDetailCustomization::OnValueCommitted, 5)
 		.OnBeginSliderMovement(this, &FMyDateTimeDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyDateTimeDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Days)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Days)))
 		.LinearDeltaSensitivity(1);
 
-	SAssignNew(HourEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(HourEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(0)
 		.MaxValue(23)
 		.MinSliderValue(0)
 		.MaxSliderValue(23)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyDateTimeDetailCustomization::OnGetValue, 0)
 		.OnValueChanged(this, &FMyDateTimeDetailCustomization::OnValueChanged, 0)
 		.OnValueCommitted(this, &FMyDateTimeDetailCustomization::OnValueCommitted, 0)
 		.OnBeginSliderMovement(this, &FMyDateTimeDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyDateTimeDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Hours)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Hours)))
 		.LinearDeltaSensitivity(1);
 
-	SAssignNew(MinuteEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(MinuteEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(0)
 		.MaxValue(59)
 		.MinSliderValue(0)
 		.MaxSliderValue(59)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyDateTimeDetailCustomization::OnGetValue, 1)
 		.OnValueChanged(this, &FMyDateTimeDetailCustomization::OnValueChanged, 1)
 		.OnValueCommitted(this, &FMyDateTimeDetailCustomization::OnValueCommitted, 1)
 		.OnBeginSliderMovement(this, &FMyDateTimeDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyDateTimeDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Minutes)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Minutes)))
 		.LinearDeltaSensitivity(1);
 
-	SAssignNew(SecondEntryBox, SNumericEntryBox<int32>)
+	SAssignNew(SecondEntryBox, SNumericEntryBox<double>)
 		.AllowSpin(true)
 		.MinValue(0)
 		.MaxValue(59)
 		.MinSliderValue(0)
 		.MaxSliderValue(59)
+		.MinFractionalDigits(0)
+		.MaxFractionalDigits(0)
 		.Font(IDetailLayoutBuilder::GetDetailFont())
 		.Value(this, &FMyDateTimeDetailCustomization::OnGetValue, 2)
 		.OnValueChanged(this, &FMyDateTimeDetailCustomization::OnValueChanged, 2)
 		.OnValueCommitted(this, &FMyDateTimeDetailCustomization::OnValueCommitted, 2)
 		.OnBeginSliderMovement(this, &FMyDateTimeDetailCustomization::OnBeginSliderMovement)
 		.OnEndSliderMovement(this, &FMyDateTimeDetailCustomization::OnEndSliderMovement)
-		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<int32>(EUnit::Seconds)))
+		.TypeInterface(MakeShareable(new TNumericUnitTypeInterface<double>(EUnit::Seconds)))
 		.LinearDeltaSensitivity(1);
 
 	HeaderRow
@@ -193,41 +205,41 @@ void FMyDateTimeDetailCustomization::CustomizeHeader(TSharedRef<IPropertyHandle>
 /* FMyDateTimeDetailCustomization callbacks
  *****************************************************************************/
 
-TOptional<int32> FMyDateTimeDetailCustomization::OnGetValue(int32 Index) const
+TOptional<double> FMyDateTimeDetailCustomization::OnGetValue(int32 Index) const
 {
 	TArray<void*> RawData;
 	PropertyHandle->AccessRawData(RawData);
 
 	if (RawData.Num() != 1)
-		return TOptional<int32>();
+		return TOptional<double>();
 
 	if (RawData[0] == nullptr)
-		return TOptional<int32>();
+		return TOptional<double>();
 
 	auto* DateTime = ((FDateTime*)RawData[0]);
 
 	switch (Index)
 	{
 		case 0:
-			return TOptional<int32>(DateTime->GetHour());
+			return TOptional<double>(DateTime->GetHour());
 
 		case 1:
-			return TOptional<int32>(DateTime->GetMinute());
+			return TOptional<double>(DateTime->GetMinute());
 
 		case 2:
-			return TOptional<int32>(DateTime->GetSecond());
+			return TOptional<double>(DateTime->GetSecond());
 
 		case 3:
-			return TOptional<int32>(DateTime->GetYear());
+			return TOptional<double>(DateTime->GetYear());
 
 		case 4:
-			return TOptional<int32>(DateTime->GetMonth());
+			return TOptional<double>(DateTime->GetMonth());
 
 		case 5:
-			return TOptional<int32>(DateTime->GetDay());
+			return TOptional<double>(DateTime->GetDay());
 
 		default:
-			return TOptional<int32>();
+			return TOptional<double>();
 	}
 }
 
@@ -242,15 +254,17 @@ void FMyDateTimeDetailCustomization::OnBeginSliderMovement()
 	);
 }
 
-void FMyDateTimeDetailCustomization::OnEndSliderMovement(int32 NewValue)
+void FMyDateTimeDetailCustomization::OnEndSliderMovement(double NewValue)
 {
 	bIsUsingSlider = false;
 
 	GEditor->EndTransaction();
 }
 
-void FMyDateTimeDetailCustomization::OnValueCommitted(int32 NewValue, ETextCommit::Type CommitType, int32 Index)
+void FMyDateTimeDetailCustomization::OnValueCommitted(double NewValue, ETextCommit::Type CommitType, int32 Index)
 {
+	NewValue = FMath::CeilToDouble(NewValue);
+
 	TArray<void*> RawData;
 
 	PropertyHandle->AccessRawData(RawData);
@@ -311,10 +325,12 @@ void FMyDateTimeDetailCustomization::OnValueCommitted(int32 NewValue, ETextCommi
 	PropertyHandle->NotifyFinishedChangingProperties();
 }
 
-void FMyDateTimeDetailCustomization::OnValueChanged(int32 NewValue, int32 Index)
+void FMyDateTimeDetailCustomization::OnValueChanged(double NewValue, int32 Index)
 {
 	if (!bIsUsingSlider)
 		return;
+
+	NewValue = FMath::CeilToDouble(NewValue);
 
 	TArray<void*> RawData;
 
@@ -374,9 +390,6 @@ void FMyDateTimeDetailCustomization::OnValueChanged(int32 NewValue, int32 Index)
 
 	PropertyHandle->NotifyPostChange(EPropertyChangeType::ValueSet);
 	PropertyHandle->NotifyFinishedChangingProperties();
-
-	//EPropertyValueSetFlags::Type Flags = EPropertyValueSetFlags::InteractiveChange;
-	//PropertyHandle->SetValue(NewValue, Flags);
 }
 
 #undef LOCTEXT_NAMESPACE
