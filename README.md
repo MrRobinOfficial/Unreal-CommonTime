@@ -38,9 +38,9 @@ git clone git@github.com:MrRobinOfficial/Unreal-CommonTime.git CommonTime
 
 <details open> 
     <summary><h2>🖼️ Screenshots</h2></summary>
-    From this:
+    <p><b>From this:</b></p>
     <img src="Resources/Screenshot_01.png" alt="Regular editor view for DateTime and Timespan">
-    To this:
+    <p><b>To this:</b></p>
     <img src="Resources/Screenshot_02.png" alt="Custom editor view for DateTime and Timespan">
 </details>
 
