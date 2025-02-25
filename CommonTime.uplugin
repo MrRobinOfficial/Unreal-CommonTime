@@ -10,7 +10,7 @@
 	"DocsURL": "https://github.com/MrRobinOfficial/Unreal-CommonTime",
 	"MarketplaceURL": "",
 	"SupportURL": "https://github.com/MrRobinOfficial/Unreal-CommonTime/issues",
-	"EngineVersion": "5.3.0",
+	"EngineVersion": "5.5.0",
 	"CanContainContent": true,
 	"Installed": true,
 	"Modules": [
