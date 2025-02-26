@@ -22,7 +22,7 @@
 * Fix padding issue (not prioritize)
 
 ## ⚙️ Supported Platforms
-This plug-in was last built against Unreal Engine 5.3.
+This plug-in was last built against Unreal Engine 5.3. But should be able to support any version of the engine.
 
 ## ⚒️ Installation
 
